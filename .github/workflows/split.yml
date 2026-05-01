@@ -2,6 +2,7 @@ name: Split Dataset
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   split:
