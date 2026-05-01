@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   push:
 
+permissions:
+  contents: write
+
 jobs:
   split:
     runs-on: ubuntu-latest
@@ -19,8 +22,13 @@ jobs:
 
       - name: Commit split files
         run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@example.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           git add .
-          git commit -m "split dataset into 10 parts" || echo "no changes"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "split dataset into 10 parts"
+            git push
+          fi
